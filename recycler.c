@@ -28,7 +28,7 @@ int moveToRecycleBin(const wchar_t* filePath) {
 
 int wmain(int argc, wchar_t* argv[]) {
     if (argc != 2) {
-        printf("recycler.exe v0.0.1\n(C) 2024, krzysiu.net, MIT license\nMoves file/directory to recycle bin in Windows\nUsage: recycler <file_path>\n", argv[0]);
+        printf("recycler.exe v0.0.1\n(C) 2024, krzysiu.net, MIT license\nMoves file/directory to recycle bin in Windows\nUsage: recycler <file_path>\n");
         return 1;
     }
 
