@@ -9,7 +9,7 @@ int main(int argc, char *argv[]) {
     
     if (argc >= 2) {
         if (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0 || strcmp(argv[1], "/?") == 0) {
-            printf("beep.exe v0.0.1\n");
+            printf("beep.exe v0.0.1b\n");
             printf("(C) 2023, krzysiu.net, MIT license\n\n") ;
             
             printf("Usage: beep [frequency] [duration]\n\n");
@@ -28,8 +28,12 @@ int main(int argc, char *argv[]) {
             printf("beep - plays 1000 Hz beep for 500 ms\n");
             printf("beep 70 - plays 70 Hz beep for 500 ms\n");
             printf("beep 300 20000 - plays 300 Hz beep for 20 000 ms (2 seconds)\n");
-            printf("beep 1000 -1 - plays 1 kHz beep forever\n");
-
+            printf("beep 1000 -1 - plays 1 kHz beep forever\n\n");
+            
+            printf("Support:\n");
+            printf("* If this tool saved your time, you can support me at: https://buymeacoffee.com/krzysiu\n\n");
+            
+            
             return 0;
         }
         frequency = atoi(argv[1]);
