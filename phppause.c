@@ -12,14 +12,14 @@
 
 void print_help() {
     printf("phppause.exe v%s\n", VERSION);
-    printf("(C) 2024, krzysiu.net, MIT license\n\n");
+    printf("(C) 2026, krzysiu.net, MIT license\n\n");
     
-    printf("Usage: php_wrapper [script_name.php] [arguments]\n\n");
+    printf("Usage: phppause [script_name.php] [arguments]\n\n");
     
     printf("Transparent wrapper for PHP interpreter with ANSI color support and window title auto-naming.\n\n");
     
     printf("Parameters:\n");
-    printf("\tscript_name.php\tThe PHP script you want to execute\n");
+    printf("\tscript_name.php\tThe path to the PHP script you want to execute\n");
     printf("\targuments\tAdditional arguments passed directly to PHP\n\n");
     
     printf("Tips:\n");
