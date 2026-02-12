@@ -1,25 +1,61 @@
 #include <windows.h>
 
+#define VERSION "0.2.0"
+
 int main(int argc, char *argv[]) {
-    if (argc != 2) {
-        MessageBox(NULL, "QUIET.EXE\n-=-=-=-=-\n(C) 2024, krzysiu.net, MIT license\n\nRun batch script without showing console.\n\nUsage:\n\tquiet.exe <path>\nwhere <path> is a path to batch file.\n\nExample:\tquiet.exe c:\\autoexec.bat && calc\nResult:\tExecute c:\\autoexec.bat and if no error code will be returned, run calculator.\n\nQuirks and things to remember:\n1) EXIT CODE of batch script WILL BE FORWARDED.\n2) This tool DOESN'T FORWARD PARAMETERS\n3) USER PRIVLEDGES ARE INHERITED BY SCRIPT. So, if you run quiet.exe as admin, script will be ran as admin as well.\n4) If batch script opens separate console window, it will show any ways, but you got tool to avoid that, don't you?\n5) Use responsibly! You won't be getting console output (duh) of what's happening and only way to interrupt script is to kill the task.\n\nIf you like this application please consider supporting my work: \nhttps://buymeacoffee.com/krzysiunet", "quiet.exe - usage information", MB_OK | MB_ICONINFORMATION);
+    if (argc < 2) {
+        char msg[2048];
+        wsprintfA(msg, 
+            "QUIET.EXE v%s\n-=-=-=-=-=-=-=-\n(C) 2026, krzysiu.net, MIT license\n\n"
+            "Run batch script or any executable without showing console window.\n\n"
+            "Usage:\n\tquiet.exe <command> [parameters]\n\n"
+            "Example:\n\tquiet.exe c:\\script.bat -force -verbose\n\n"
+            "Quirks and things to remember:\n"
+            "1) EXIT CODE of the process WILL BE FORWARDED.\n"
+            "2) Parameters ARE forwarded to the target.\n"
+            "3) USER PRIVILEGES ARE INHERITED.\n"
+            "4) If the target opens its own window, it will be visible.\n"
+            "5) Use responsibly! No console output is visible.\n\n"
+            "If you like this application please consider supporting my work:\n"
+            "https://buymeacoffee.com/krzysiunet", 
+            VERSION);
+
+        MessageBoxA(NULL, msg, "quiet.exe - usage information", MB_OK | MB_ICONINFORMATION);
         return 1;
     }
-    
+
+    LPSTR cmd = GetCommandLineA();
+    BOOL q = FALSE;
+
+    while (*cmd) {
+        if (*cmd == '\"') q = !q;
+        else if (*cmd == ' ' && !q) {
+            cmd++;
+            while (*cmd == ' ') cmd++;
+            break;
+        }
+        cmd++;
+    }
+
+    if (!*cmd) cmd = argv[1];
+
     STARTUPINFO si;
     PROCESS_INFORMATION pi;
-    
+    DWORD exitCode = 0;
+
     ZeroMemory(&si, sizeof(si));
     si.cb = sizeof(si);
+    si.dwFlags = STARTF_USESHOWWINDOW;
+    si.wShowWindow = SW_HIDE;
     ZeroMemory(&pi, sizeof(pi));
-    
-    if (!CreateProcess(NULL, argv[1], NULL, NULL, FALSE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi)) return GetLastError();
-    
-    
-    WaitForSingleObject(pi.hProcess, INFINITE);
-    
-    CloseHandle(pi.hProcess);
-    CloseHandle(pi.hThread);
-    
-    return 0;
+
+    if (CreateProcess(NULL, cmd, NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi)) {
+        WaitForSingleObject(pi.hProcess, INFINITE);
+        GetExitCodeProcess(pi.hProcess, &exitCode);
+        CloseHandle(pi.hProcess);
+        CloseHandle(pi.hThread);
+        return (int)exitCode;
+    }
+
+    return (int)GetLastError();
 }
