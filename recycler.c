@@ -1,7 +1,6 @@
 #include <windows.h>
 #include <shellapi.h>  
 #include <stdio.h>
-#include <string.h>
 
 int moveToRecycleBin(const wchar_t* filePath) {
     SHFILEOPSTRUCTW fileOp;
@@ -29,7 +28,7 @@ int moveToRecycleBin(const wchar_t* filePath) {
 
 int wmain(int argc, wchar_t* argv[]) {
     if (argc != 2 || wcscmp(argv[1], L"--help") == 0 || wcscmp(argv[1], L"-h") == 0) {
-        printf("recycler.exe v0.0.1\n(C) 2024, krzysiu.net, MIT license\nMoves file/directory to recycle bin in Windows\nUsage: recycler <file_path>\n");
+        printf("recycler.exe v0.0.1\n(C) 2024, krzysiu.net, MIT license\nMoves file/directory to recycle bin in Windows\nUsage: %ls <file_path>\n", argv[0]);
         return 1;
     }
 
