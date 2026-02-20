@@ -1,4 +1,4 @@
-Collection of very simple tools for helping in command line everyday's tasks.
+Collection of very simple tools for helping in command line everyday's tasks. Despite the name of the pack, **they work in non-Windows OS** - it's just that they replace missing Linux commands in Windows, so it's most useful there.
 
 
 Changes
@@ -10,6 +10,10 @@ Changes
 * :unamused: minor change
 * :arrow_up: major change
 ---
+
+[release in progress]
+---
+* :hatching_chick: **pausex** - a nicer brother of Windows's `pause`
 
 2026 release (tag r2)
 ---
