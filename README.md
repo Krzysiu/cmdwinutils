@@ -125,6 +125,30 @@ Runs PowerShell commands invisibly (no window) and captures all output (stdout/s
 * **Logging:** By default, it logs to `%TEMP%\quietps.log.txt`. 
 * **Exit Code:** The exit code from the PowerShell process is forwarded as the exit code of **quietps.exe**.
 
+:hatching_chick: **pausex.c** 
+---
+Usage: `pausex`
+
+A simple replacement for the system `pause` command that differentiates between a regular key press and **CTRL+C**, while preventing accidental skipping of steps.
+
+Key differences from standard `pause`:
+* **Distinct ^C handling**. Unlike the standard `pause`, which treats CTRL+C just like any other key or kills the batch flow, `pausex` specifically identifies the interrupt and returns **Exit Code 130**. This allows the caller to handle the termination gracefully.
+* **Input debouncing**. If you're holding a key from a previous task, `pausex` waits for you to release it before listening for a new press. No more accidental fast-forwarding through tasks.
+* **Ignores modifiers**. Pressing Shift, Ctrl, Alt, or the Windows key by itself won't finish the execution
+
+**Python Example:**
+```python
+import subprocess, sys
+res = subprocess.run(['pausex.exe']).returncode
+if res == 130: sys.exit("Interrupted by user.")
+```
+
+**PHP Example:**
+```php
+exec('pausex', $out, $res);
+if ($res === 130) die("Interrupted by user.");
+```
+
 Compiling
 ===
 For **all**: `gcc %filename%.c -o %outname% -Os -s -ffunction-sections -fdata-sections -Wl,--gc-sections` (replace %% variables!)
